@@ -1,23 +1,35 @@
 import { ProductTy } from "@/Typing/Typing";
 import { Carousel } from "@mantine/carousel";
 import { Box, Button, Flex, Group, Image, Modal, Paper, createStyles, rem } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   content: {
     background: "transparent",
   },
+  image: {
+    border: "2px solid transparent",
+  },
+  imageActive: {
+    border: "2px solid tomato",
+  },
 }));
 
 interface Props {
   data: ProductTy | null;
+  setOpened: (status: boolean) => void;
+  opened: boolean;
+  index: number;
 }
 
-function ImageProductSlide({ data }: Props) {
-  const { classes } = useStyles();
+function ImageProductSlide({ data, opened, setOpened, index }: Props) {
+  const { classes, cx } = useStyles();
 
-  const [opened, setOpened] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(index);
+
+  useEffect(() => {
+    setImageIndex(index);
+  }, [index]);
 
   const Items = data?.images.map((image, i) => (
     <Carousel.Slide key={image}>
@@ -27,17 +39,21 @@ function ImageProductSlide({ data }: Props) {
     </Carousel.Slide>
   ));
   const Items2 = data?.images.map((image, i) => (
-    <Paper key={i} radius={"md"} h={"100%"} bg={"white"} sx={{ overflow: "hidden" }} onClick={() => setImageIndex(i)}>
+    <Paper
+      key={i}
+      radius={"md"}
+      h={"100%"}
+      bg={"white"}
+      sx={{ overflow: "hidden" }}
+      onClick={() => setImageIndex(i)}
+      className={cx(classes.image, { [classes.imageActive]: imageIndex === i })}
+    >
       <Image src={image} fit="contain" width={100} height={100} bg={"white"} />
     </Paper>
   ));
 
   return (
     <>
-      <Group position="center">
-        <Button onClick={() => setOpened(true)}>Open modal with carousel</Button>
-      </Group>
-
       <Modal
         size="lg"
         centered

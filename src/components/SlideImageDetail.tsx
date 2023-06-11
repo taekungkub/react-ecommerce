@@ -1,7 +1,7 @@
 import { ProductTy } from "@/Typing/Typing";
 import { Carousel } from "@mantine/carousel";
-import { Image, createStyles } from "@mantine/core";
-import { useState } from "react";
+import { Image, Paper, createStyles } from "@mantine/core";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles({
   image: {
@@ -14,31 +14,38 @@ const useStyles = createStyles({
 
 interface Props {
   data?: ProductTy | null;
+  onToggle: () => void;
+  index: number;
+  onIndexChange: (index: number) => void;
 }
 
-function SlideImageDetail({ data }: Props) {
-  const [imageIndex, setImageIndex] = useState(0);
+function SlideImageDetail({ data, onToggle, index, onIndexChange }: Props) {
+  const [imageIndex, setImageIndex] = useState(index);
 
   const { classes, cx } = useStyles();
 
+  useEffect(() => {
+    onIndexChange(imageIndex);
+  }, [imageIndex]);
+
   const Items = data?.images.map((image, i) => (
     <Carousel.Slide key={image}>
-      <Image src={image} fit="contain" mah={500} height={500} />
+      <Image src={image} fit="contain" style={{ cursor: "pointer" }} mah={500} height={500} onClick={onToggle} />
     </Carousel.Slide>
   ));
 
   const Items2 = data?.images.map((image, i) => (
     <Carousel.Slide key={image}>
-      <Image
-        src={image}
-        fit="contain"
-        mah={250}
-        height={100}
+      <Paper
+        key={i}
+        radius={"md"}
+        h={"100%"}
+        sx={{ background: "white", overflow: "hidden", cursor: "pointer" }}
         onClick={() => setImageIndex(i)}
         className={cx(classes.image, { [classes.imageActive]: imageIndex === i })}
-        bg={"white"}
-        h={"100%"}
-      />
+      >
+        <Image src={image} fit="contain" mah={250} height={100} onClick={() => setImageIndex(i)} bg={"white"} h={"100%"} />
+      </Paper>
     </Carousel.Slide>
   ));
 
