@@ -3,8 +3,9 @@ import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 
 interface Props {
   title: string;
+  onToggleViewAll: () => void;
 }
-function PageTitleProduct({ title }: Props) {
+function PageTitleProduct({ title, onToggleViewAll }: Props) {
   return (
     <>
       <Group position="apart" mb={12}>
@@ -16,7 +17,7 @@ function PageTitleProduct({ title }: Props) {
             {title}
           </Title>
         </Flex>
-        <Button variant="subtle" color="gray.9">
+        <Button variant="subtle" color="gray.9" onClick={onToggleViewAll}>
           ดูทั้งหมด
         </Button>
       </Group>

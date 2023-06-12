@@ -1,14 +1,17 @@
-import { AspectRatio, Badge, Card, Group, Image, Paper, Text, createStyles, getStylesRef, rem } from "@mantine/core";
+import { AspectRatio, Badge, Card, Divider, Group, Image, Paper, Text, createStyles, getStylesRef, rem } from "@mantine/core";
 import { ProductTy } from "../Typing/Typing";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   card: {
-    position: "relative",
-    overflow: "hidden",
     [`&:hover .${getStylesRef("image")}`]: {
       scale: "1.1",
     },
+    position: "relative",
+    overflow: "hidden",
+  },
+  innerCard: {
+    overflow: "hidden",
   },
 
   section: {
@@ -20,7 +23,15 @@ const useStyles = createStyles((theme) => ({
 
   image: {
     ref: getStylesRef("image"),
-    transition: "scale 500ms ease",
+    transition: "all 500ms ease",
+  },
+  discount: {
+    position: "absolute",
+    top: "15px",
+    right: "15px",
+    padding: "5px",
+    borderRadius: "999px",
+    background: theme.colors.blue[4],
   },
 }));
 
@@ -35,13 +46,13 @@ function CardProduct({ data }: Props) {
   return (
     <>
       <Card shadow="md" radius={"md"} onClick={() => navigate("/product/" + data.id)} className={classes.card}>
-        <Card.Section>
+        <Card.Section className={classes.innerCard}>
           <Image src={data.thumbnail} fit="cover" height={250} className={classes.image} />
         </Card.Section>
         <Card.Section className={classes.section} mt="lg">
-          <Text>{data.title}</Text>
+          <Text color={"dimmed"}>{data.title}</Text>
           <Text color="dark" fz={"bold"} mt={5}>
-            $ {data.price}
+            ${data.price}
           </Text>
         </Card.Section>
       </Card>

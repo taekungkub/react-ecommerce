@@ -1,6 +1,6 @@
 import { ProductTy } from "@/Typing/Typing";
 import { Carousel } from "@mantine/carousel";
-import { Image, Paper, createStyles } from "@mantine/core";
+import { Flex, Image, Paper, createStyles } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 const useStyles = createStyles({
@@ -49,6 +49,19 @@ function SlideImageDetail({ data, onToggle, index, onIndexChange }: Props) {
     </Carousel.Slide>
   ));
 
+  const Items3 = data?.images.map((image, i) => (
+    <Paper
+      key={i}
+      radius={"md"}
+      h={"100%"}
+      bg={"white"}
+      sx={{ overflow: "hidden" }}
+      onClick={() => setImageIndex(i)}
+      className={cx(classes.image, { [classes.imageActive]: imageIndex === i })}
+    >
+      <Image src={image} fit="contain" width={100} height={100} bg={"white"} />
+    </Paper>
+  ));
   return (
     <>
       <Carousel
@@ -61,7 +74,7 @@ function SlideImageDetail({ data, onToggle, index, onIndexChange }: Props) {
       >
         {Items}
       </Carousel>
-      <Carousel
+      {/* <Carousel
         draggable={false}
         mah={250}
         height={"auto"}
@@ -74,7 +87,10 @@ function SlideImageDetail({ data, onToggle, index, onIndexChange }: Props) {
         mt={12}
       >
         {Items2}
-      </Carousel>
+      </Carousel> */}
+      <Flex wrap={"wrap"} justify={{ base: "center", sm: "start" }} gap={10} mt={12}>
+        {Items3}
+      </Flex>
     </>
   );
 }

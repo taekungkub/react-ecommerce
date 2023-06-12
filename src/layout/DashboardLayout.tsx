@@ -1,22 +1,5 @@
 import { useState } from "react";
-import {
-  AppShell,
-  Navbar,
-  Header,
-  Footer,
-  Aside,
-  Text,
-  MediaQuery,
-  Burger,
-  useMantineTheme,
-  Flex,
-  Box,
-  Group,
-  Container,
-  Title,
-  Portal,
-  rem,
-} from "@mantine/core";
+import { AppShell, Navbar, Header, Text, MediaQuery, Burger, useMantineTheme, Flex, Box, Group, Container } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import MenuDropdownProfile from "../components/MenuDropdownProfile";
 import ButtonCart from "../components/ButtonCart";
@@ -24,12 +7,12 @@ import LanguagePicker from "../components/LanguagePicker";
 import HeaderMenu from "../components/HeaderMenu";
 import TheSidebar from "../components/TheSidebar";
 import FooterMainMenu from "../components/FooterMainMenu";
-import { useHeadroom } from "@mantine/hooks";
+import useBackgroundApp from "@/hooks/useBackgroundApp";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-
+  const { currentBg } = useBackgroundApp();
   return (
     <AppShell
       styles={{
@@ -85,7 +68,7 @@ export default function AppShellDemo() {
         </Header>
       }
     >
-      <Container mt={{ sm: 60 }}>
+      <Container pt={{ sm: 60 }}>
         <Outlet />
       </Container>
       <MediaQuery largerThan="sm" styles={{ display: "none" }}>

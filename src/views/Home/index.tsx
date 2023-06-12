@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import CardProduct from "../../components/CardProdct";
 import SlideProducts from "../../components/SlideProduct";
 import PageTitleProduct from "../../components/PageTitleProdut";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const products = useSelector(getSmarthphones);
@@ -14,6 +15,7 @@ function HomePage() {
 
   const productStatus = useSelector(getProductStatus);
   const isLoading = productStatus === "loading";
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
@@ -21,11 +23,11 @@ function HomePage() {
 
   return (
     <>
-      <PageTitleProduct title="Smarthphones" />
+      <PageTitleProduct title="Smarthphones" onToggleViewAll={() => navigate("/category/smartphones")} />
       <SlideProducts data={products} isLoading={isLoading} />
-      <PageTitleProduct title="Laptops" />
+      <PageTitleProduct title="Laptops" onToggleViewAll={() => navigate("/category/laptops")} />
       <SlideProducts data={laptops} isLoading={isLoading} />
-      <PageTitleProduct title="Skincares" />
+      <PageTitleProduct title="Skincares" onToggleViewAll={() => navigate("/category/skincare")} />
       <SlideProducts data={skincares} isLoading={isLoading} />
     </>
   );
